@@ -1,3 +1,4 @@
+// import fs librery
 const read = require('fs')
 const file = read.readFileSync('words.txt', 'utf-8')
 const breakingFile = (contentFile) => (contentFile
@@ -5,11 +6,13 @@ const breakingFile = (contentFile) => (contentFile
 					.replace(/['!"¡#$%&\\'()\*+,\-–\.\/:;<=>?@\[\\\]\^_`{|}~'\n]/g, '')
 					.split(' ')) 
 
-const duplicateWords = (words) => {
-	let objWords = {}
-	words.forEach((word) => objWords[word] ??= 1 );
-	return Object.keys(objWords)
-}
 
-const splitFile = duplicateWords(breakingFile(file))
+const reducerWords = (words) => words.reduce((acc,word) => {
+	acc =  word.length >= 4 ? [...acc,word] : acc
+	return acc
+},[] )
+
+// unique words for file
+const uniqueWords = [...new Set(breakingFile(file))] 
+const splitFile = reducerWords(uniqueWords)
 console.log(splitFile)
